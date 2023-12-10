@@ -1,0 +1,29 @@
+name: deploy-on-different-environments
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    release:
+        types: [prereleased]
+
+jobs:
+    deploy-to-environment-A:
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        environment: dev
+            
+        steps:
+            - name: Deploy to Environment A
+              run: |
+                echo "running on env: dev"
+    
+    deploy-to-environment-B:
+        if: github.event_name == 'release' && github.event.release.prerelease == true
+        runs-on: ubuntu-latest
+        environment: prod
+        steps:
+            - name: Deploy to Environment B
+              run: |
+                echo "running on env: prod - from new release"
