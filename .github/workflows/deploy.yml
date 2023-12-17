@@ -21,7 +21,7 @@ jobs:
               env:
                   STEP_ENV_VAR: "This is from step A"
               run: |
-                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n ${{vars.MESSAGE}}"
+                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n $vars.MESSAGE"
     
     deploy-to-environment-B:
         if: github.event_name == 'release' && github.event.release.prerelease == true
@@ -32,4 +32,4 @@ jobs:
               env:
                   STEP_ENV_VAR: "This is from step B"
               run: |
-                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n $MESSAGE"
+                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n $vars.MESSAGE"
