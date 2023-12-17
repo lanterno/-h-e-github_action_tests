@@ -8,6 +8,8 @@ on:
     release:
         types: [prereleased]
 
+env:
+    ENV_IN_FILE: "this is from the GA file!"
 jobs:
     deploy-to-environment-A:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -16,8 +18,10 @@ jobs:
             
         steps:
             - name: Deploy to Environment A
+              env:
+                  STEP_ENV_VAR: "This is from step A"
               run: |
-                echo "running on env: dev"
+                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n"
     
     deploy-to-environment-B:
         if: github.event_name == 'release' && github.event.release.prerelease == true
@@ -25,5 +29,7 @@ jobs:
         environment: prod
         steps:
             - name: Deploy to Environment B
+              env:
+                  STEP_ENV_VAR: "This is from step B"
               run: |
-                echo "running on env: prod - from new release"
+                echo "$ENV_IN_FILE \n $STEP_ENV_VAR \n"
